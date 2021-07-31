@@ -20,7 +20,7 @@ Tasks:
   - Tasks are once off items which need to be completed.
   - Tasks can optionally be assigned to someone.
   - Tasks can optionally have due dates
-  - Tasks can be marked as Open, In Progress, Completed, Not Done
+  - Tasks can be marked as Pending, In Progress, Completed, Not Done
 
 Repeating Tasks (chores):
   - Repeating Tasks should keep track of who last completed them, and when.
