@@ -1,6 +1,6 @@
 openapi: 3.0.2
 servers:
-  - url: /v3
+  - url: /v1
 info:
   description: |-
     A go-lang API to manage chores (repeating) and todo items (once-off) 
@@ -15,8 +15,6 @@ info:
 tags:
   - name: task
     description: Everything about a task
-  - name: repeating
-    description: Tasks which repeat
   - name: user
     description: Access to tasks
 paths:
@@ -517,3 +515,16 @@ components:
             items:
               $ref: '#/components/schemas/User'
       description: List of user object
+  securitySchemes:
+    tasks_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'https://petstore.swagger.io/oauth/authorize' #TODO: Update this URL or remove the security.
+          scopes:
+            'write:tasks': modify tasks in your account
+            'read:tasks': read your tasks
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
