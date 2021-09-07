@@ -34,9 +34,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
-        - tasks_auth:
-            - 'read:tasks'
+        - tasks_auth: []
     post:
       tags:
         - task
@@ -55,10 +56,10 @@ paths:
                 $ref: '#/components/schemas/Task'
         '405':
           description: Invalid input
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
       requestBody:
         description: Create a new task to be completed
         required: true
@@ -84,14 +85,14 @@ paths:
                 $ref: '#/components/schemas/Task'
         '400':
           description: Invalid ID supplied
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           description: Task not found
         '405':
           description: Validation exception
       security:
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
       requestBody:
         description: Update an existent task
         required: true
@@ -131,10 +132,10 @@ paths:
                   $ref: '#/components/schemas/Task'
         '400':
           description: Invalid status value
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
   /pet/findByUser:
     get:
       tags:
@@ -167,10 +168,10 @@ paths:
                   $ref: '#/components/schemas/Task'
         '400':
           description: Invalid tag value
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
   '/task/{taskId}':
     get:
       tags:
@@ -198,13 +199,12 @@ paths:
                 $ref: '#/components/schemas/Task'
         '400':
           description: Invalid ID supplied
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           description: Task not found
       security:
-        - api_key: []
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
     post:
       tags:
         - task
@@ -230,12 +230,12 @@ paths:
           schema:
             type: string
       responses:
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '405':
           description: Invalid input
       security:
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
     delete:
       tags:
         - task
@@ -259,10 +259,10 @@ paths:
       responses:
         '400':
           description: Invalid pet value
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
-        - tasks_auth:
-            - 'write:tasks'
-            - 'read:tasks'
+        - tasks_auth: []
   /user:
     post:
       tags:
@@ -277,6 +277,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - tasks_auth: []  
       requestBody:
         content:
           application/json:
@@ -387,8 +391,12 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Invalid username supplied
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           description: User not found
+      security:
+        - tasks_auth: []  
     put:
       tags:
         - user
@@ -406,6 +414,10 @@ paths:
       responses:
         default:
           description: successful operation
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - tasks_auth: []  
       requestBody:
         description: Update an existent user in the store
         content:
@@ -428,8 +440,12 @@ paths:
       responses:
         '400':
           description: Invalid username supplied
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           description: User not found
+      security:
+        - tasks_auth: []  
 components:
   schemas:
     User:
@@ -517,14 +533,15 @@ components:
       description: List of user object
   securitySchemes:
     tasks_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: 'https://petstore.swagger.io/oauth/authorize' #TODO: Update this URL or remove the security.
-          scopes:
-            'write:tasks': modify tasks in your account
-            'read:tasks': read your tasks
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
     api_key:
       type: apiKey
       name: api_key
       in: header
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+security:
+  - tasks_auth: []

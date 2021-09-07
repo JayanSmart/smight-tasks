@@ -10,7 +10,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
 
 # [Optional] Uncomment the next line to use go get to install anything else you need
 # RUN go get -x <your-dependency-or-tool>
-RUN go get -x github.com/gorilla/mux
+# RUN go get -x github.com/gorilla/mux
 # RUN go mod download
 
 # [Optional] Uncomment this line to install global node packages.

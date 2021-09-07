@@ -11,7 +11,12 @@ package swagger
 
 import (
 	"net/http"
+	"smight-tasks-api/app/engine"
 )
+
+func init() {
+	engine.Connect()
+}
 
 func AddTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")

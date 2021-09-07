@@ -16,13 +16,13 @@ A stretch goal/enhancement is to also keep track of a shared shopping list.
 
 This backend needs to manage 2 distinct items:
 
-Tasks:
+### Tasks:
   - Tasks are once off items which need to be completed.
   - Tasks can optionally be assigned to someone.
   - Tasks can optionally have due dates
   - Tasks can be marked as Pending, In Progress, Completed, Not Done
 
-Repeating Tasks (chores):
+### Repeating Tasks (chores):
   - Repeating Tasks should keep track of who last completed them, and when.
   - When one of these tasks are completed, the task should be assigned to the
     next person on the list of "assignees"
@@ -34,6 +34,15 @@ Repeating Tasks (chores):
   - Tasks can be completed by anyone, but only if the assigned person 
     completes the task, should the assignee change to the next person.
 
+I can create a single Task, and then give it a property (repeating) and this should simplify my 
+data model.
+
+
+### Users: 
+  - Users can be assigned many tasks
+  - users have a name
+  - users can be active or inactive (repeating tasks don't assign to them)
+
 ### Tech Stack
 
 To achieve this I want to define a simple api for managing Tasks in OAPI3.
@@ -42,6 +51,4 @@ I will then generate a golang base project based on that specification.
 I will use mongoDB as a backend DB for storing the Tasks.
 
 The DB may not be running on the RaspberryPi.
-
-
 

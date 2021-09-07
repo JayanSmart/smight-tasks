@@ -2,12 +2,8 @@ FROM balenalib/%%BALENA_MACHINE_NAME%%-golang:latest-build AS build
 
 WORKDIR /go/src/github.com/JayanSmart/smight-tasks/app
 
-RUN apt install tree
-
 COPY /app ./
 COPY /go.mod ./
-
-RUN tree
 
 RUN go mod download
 
